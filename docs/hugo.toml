@@ -1,4 +1,4 @@
-baseURL = '/'
+baseURL = 'https://jonhbrz.github.io/Servidor_WSGI/'
 languageCode = 'en-us'
 title = 'Documentación del Proyecto TicTacToe'
 theme = 'PaperMod'
