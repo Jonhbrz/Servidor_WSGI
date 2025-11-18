@@ -1,8 +1,8 @@
 ---
 title: "Inicio"
-type: "page"
+layout: "home"
 ---
 
-Bienvenido a la documentación del proyecto **TicTacToe API**.
+Bienvenido a la documentación del Proyecto **TicTacToe API**.
 
-Selecciona una sección del menú para continuar.
+Utiliza el menú superior para navegar entre secciones.
