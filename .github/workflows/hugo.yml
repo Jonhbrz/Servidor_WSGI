@@ -2,8 +2,7 @@ name: Deploy Hugo site to Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
 
 permissions:
   contents: read
@@ -13,25 +12,26 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           submodules: true
           fetch-depth: 0
 
-      - name: Install Hugo
+      - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
           hugo-version: "latest"
           extended: true
 
-      - name: Build Site
+      - name: Build the website
         working-directory: docs
         run: hugo --minify
 
-      - name: Upload Artifact
-        uses: actions/upload-pages-artifact@v2
+      - name: Upload website artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: docs/public
 
@@ -40,9 +40,9 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deploy.outputs.page_url }}
 
     steps:
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+        id: deploy
+        uses: actions/deploy-pages@v4
