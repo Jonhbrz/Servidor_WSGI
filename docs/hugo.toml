@@ -1,0 +1,64 @@
+baseURL = '/'
+languageCode = 'en-us'
+title = 'Documentación del Proyecto TicTacToe'
+theme = 'PaperMod'
+defaultContentLanguage = 'es'
+[pagination]
+  pagerSize = 10
+
+# --- APARIENCIA ---
+[params]
+  env = "production"
+  title = "Documentación TicTacToe"
+  description = "Guía de instalación, configuración y despliegue del proyecto"
+  defaultTheme = "auto"   # light / dark / auto
+  disableThemeToggle = false
+
+  # Navbar
+  ShowBreadCrumbs = true
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  ShowCodeCopyButtons = true
+  ShowAuthor = false
+  ShowFooterCredits = false
+  comments = false
+
+  # Búsqueda
+  ShowSearch = true
+
+  # Opciones de tabla de contenido
+  toc = true
+  tocOpen = true
+
+# --- MENÚ SUPERIOR ---
+[menu]
+
+  [[menu.main]]
+    name = "Inicio"
+    url = "/inicio"
+    weight = 1
+
+  [[menu.main]]
+    name = "Instalación"
+    url = "/instalacion/"
+    weight = 2
+
+  [[menu.main]]
+    name = "Configuración"
+    url = "/configuracion/"
+    weight = 3
+
+  [[menu.main]]
+    name = "Despliegue"
+    url = "/despliegue/"
+    weight = 4
+
+# --- MARKDOWN ---
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+
+# --- BUILD ---
+[outputs]
+  home = ["HTML", "RSS", "JSON"]

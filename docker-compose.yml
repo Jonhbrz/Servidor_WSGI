@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+  # ------------------------------
+  #  API TICTACTOE 1
+  # ------------------------------
+  tictactoe1:
+    build: ./api
+    container_name: tictactoe1
+    restart: always
+    networks:
+      - tictactoe-net
+    expose:
+      - "8000"   # visible solo dentro de la red docker
+
+  # ------------------------------
+  #  API TICTACTOE 2
+  # ------------------------------
+  tictactoe2:
+    build: ./api
+    container_name: tictactoe2
+    restart: always
+    networks:
+      - tictactoe-net
+    expose:
+      - "8000"
+
+  # ------------------------------
+  #  NGINX COMO REVERSE PROXY
+  # ------------------------------
+  nginx:
+    image: nginx:latest
+    container_name: nginx_tictactoe
+    restart: always
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "9000:80"
+    depends_on:
+      - tictactoe1
+      - tictactoe2
+    networks:
+      - tictactoe-net
+
+# ------------------------------
+#  RED DOCKER COMPARTIDA
+# ------------------------------
+networks:
+  tictactoe-net:
+    driver: bridge
