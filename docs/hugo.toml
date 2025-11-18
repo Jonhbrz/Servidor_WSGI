@@ -35,8 +35,8 @@ defaultContentLanguage = 'es'
 [menu]
 
   [[menu.main]]
-    name = "Inicio"
-    url = "/inicio"
+    name = "Introducción"
+    url = "/introduccion"
     weight = 1
 
   [[menu.main]]

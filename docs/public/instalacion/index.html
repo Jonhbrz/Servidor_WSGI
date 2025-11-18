@@ -1,48 +1,38 @@
 <!DOCTYPE html>
 <html lang="es" dir="auto" data-theme="auto">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><script src="/Servidor_WSGI/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=Servidor_WSGI/livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Instalación Básica de Waitress | Documentación del Proyecto TicTacToe</title>
 <meta name="keywords" content="">
-<meta name="description" content="En esta sección aprenderás a instalar Waitress, un servidor WSGI de producción para aplicaciones Python como Flask.
-1. Requisitos previos
-Asegúrate de tener instalado:
+<meta name="description" content="En esta sección veremos cómo se instala Waitress dentro del contenedor Docker que ejecuta la API.
+Waitress es el servidor WSGI que utilizamos para servir la aplicación Flask en producción.
 
-Python 3.10 o superior
-pip actualizado
-Un entorno virtual (opcional pero recomendado)
+1. Instalación de Waitress mediante Docker
+En este proyecto, Waitress no se instala manualmente en el sistema, sino que se incluye directamente dentro del Dockerfile del servicio API.
+Esto garantiza:
 
-2. Crear el entorno virtual
-python -m venv venv
-source venv/bin/activate      # Linux/macOS
-venv\Scripts\activate         # Windows
-3. Instalar Flask y Waitress
-pip install flask waitress
-4. Archivo básico de ejemplo
-from flask import Flask
+Un entorno limpio y reproducible
+Independencia del sistema operativo
+Misma configuración en todas las instancias (tictactoe1, tictactoe2, etc.)
 
-app = Flask(__name__)
 
-@app.get(&#34;/&#34;)
-def home():
-    return &#34;Waitress funcionando correctamente.&#34;
-5. Ejecutar la app con Waitress
-waitress-serve --listen=0.0.0.0:8000 main:app
-Ahora el backend está listo para producción a través de Waitress.">
+2. Dockerfile con instalación automática de dependencias
+El paquete Waitress se instala dentro del contenedor utilizando pip install.
+Este es el bloque relevante del Dockerfile:">
 <meta name="author" content="">
-<link rel="canonical" href="//localhost:1313/instalacion/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.fd5566c526ae48aadabd950798a2dc3568536401560eae5caac3765a42a9e7b5.css" integrity="sha256-/VVmxSauSKravZUHmKLcNWhTZAFWDq5cqsN2WkKp57U=" rel="preload stylesheet" as="style">
-<link rel="icon" href="//localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="//localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="//localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="//localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="//localhost:1313/safari-pinned-tab.svg">
+<link rel="canonical" href="http://localhost:1313/Servidor_WSGI/instalacion/">
+<link crossorigin="anonymous" href="/Servidor_WSGI/assets/css/stylesheet.343cc480b9ffc8f04ccbe5e968ad674880cab773ec19905e93033065c1e7a804.css" integrity="sha256-NDzEgLn/yPBMy&#43;XpaK1nSIDKt3PsGZBekwMwZcHnqAQ=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/Servidor_WSGI/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/Servidor_WSGI/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/Servidor_WSGI/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/Servidor_WSGI/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/Servidor_WSGI/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="es" href="//localhost:1313/instalacion/">
+<link rel="alternate" hreflang="es" href="http://localhost:1313/Servidor_WSGI/instalacion/">
 <noscript>
     <style>
         #theme-toggle,
@@ -94,41 +84,34 @@ Ahora el backend está listo para producción a través de Waitress.">
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta property="og:url" content="//localhost:1313/instalacion/">
+</script><meta property="og:url" content="http://localhost:1313/Servidor_WSGI/instalacion/">
   <meta property="og:site_name" content="Documentación del Proyecto TicTacToe">
   <meta property="og:title" content="Instalación Básica de Waitress">
-  <meta property="og:description" content="En esta sección aprenderás a instalar Waitress, un servidor WSGI de producción para aplicaciones Python como Flask.
-1. Requisitos previos Asegúrate de tener instalado:
-Python 3.10 o superior pip actualizado Un entorno virtual (opcional pero recomendado) 2. Crear el entorno virtual python -m venv venv source venv/bin/activate # Linux/macOS venv\Scripts\activate # Windows 3. Instalar Flask y Waitress pip install flask waitress 4. Archivo básico de ejemplo from flask import Flask app = Flask(__name__) @app.get(&#34;/&#34;) def home(): return &#34;Waitress funcionando correctamente.&#34; 5. Ejecutar la app con Waitress waitress-serve --listen=0.0.0.0:8000 main:app Ahora el backend está listo para producción a través de Waitress.">
+  <meta property="og:description" content="En esta sección veremos cómo se instala Waitress dentro del contenedor Docker que ejecuta la API.
+Waitress es el servidor WSGI que utilizamos para servir la aplicación Flask en producción.
+1. Instalación de Waitress mediante Docker En este proyecto, Waitress no se instala manualmente en el sistema, sino que se incluye directamente dentro del Dockerfile del servicio API.
+Esto garantiza:
+Un entorno limpio y reproducible Independencia del sistema operativo Misma configuración en todas las instancias (tictactoe1, tictactoe2, etc.) 2. Dockerfile con instalación automática de dependencias El paquete Waitress se instala dentro del contenedor utilizando pip install.
+Este es el bloque relevante del Dockerfile:">
   <meta property="og:locale" content="en-us">
   <meta property="og:type" content="article">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Instalación Básica de Waitress">
-<meta name="twitter:description" content="En esta sección aprenderás a instalar Waitress, un servidor WSGI de producción para aplicaciones Python como Flask.
-1. Requisitos previos
-Asegúrate de tener instalado:
+<meta name="twitter:description" content="En esta sección veremos cómo se instala Waitress dentro del contenedor Docker que ejecuta la API.
+Waitress es el servidor WSGI que utilizamos para servir la aplicación Flask en producción.
 
-Python 3.10 o superior
-pip actualizado
-Un entorno virtual (opcional pero recomendado)
+1. Instalación de Waitress mediante Docker
+En este proyecto, Waitress no se instala manualmente en el sistema, sino que se incluye directamente dentro del Dockerfile del servicio API.
+Esto garantiza:
 
-2. Crear el entorno virtual
-python -m venv venv
-source venv/bin/activate      # Linux/macOS
-venv\Scripts\activate         # Windows
-3. Instalar Flask y Waitress
-pip install flask waitress
-4. Archivo básico de ejemplo
-from flask import Flask
+Un entorno limpio y reproducible
+Independencia del sistema operativo
+Misma configuración en todas las instancias (tictactoe1, tictactoe2, etc.)
 
-app = Flask(__name__)
 
-@app.get(&#34;/&#34;)
-def home():
-    return &#34;Waitress funcionando correctamente.&#34;
-5. Ejecutar la app con Waitress
-waitress-serve --listen=0.0.0.0:8000 main:app
-Ahora el backend está listo para producción a través de Waitress.">
+2. Dockerfile con instalación automática de dependencias
+El paquete Waitress se instala dentro del contenedor utilizando pip install.
+Este es el bloque relevante del Dockerfile:">
 
 
 <script type="application/ld+json">
@@ -140,7 +123,7 @@ Ahora el backend está listo para producción a través de Waitress.">
       "@type": "ListItem",
       "position":  1 ,
       "name": "Instalación Básica de Waitress",
-      "item": "//localhost:1313/instalacion/"
+      "item": "http://localhost:1313/Servidor_WSGI/instalacion/"
     }
   ]
 }
@@ -151,25 +134,25 @@ Ahora el backend está listo para producción a través de Waitress.">
   "@type": "BlogPosting",
   "headline": "Instalación Básica de Waitress",
   "name": "Instalación Básica de Waitress",
-  "description": "En esta sección aprenderás a instalar Waitress, un servidor WSGI de producción para aplicaciones Python como Flask.\n1. Requisitos previos Asegúrate de tener instalado:\nPython 3.10 o superior pip actualizado Un entorno virtual (opcional pero recomendado) 2. Crear el entorno virtual python -m venv venv source venv/bin/activate # Linux/macOS venv\\Scripts\\activate # Windows 3. Instalar Flask y Waitress pip install flask waitress 4. Archivo básico de ejemplo from flask import Flask app = Flask(__name__) @app.get(\u0026#34;/\u0026#34;) def home(): return \u0026#34;Waitress funcionando correctamente.\u0026#34; 5. Ejecutar la app con Waitress waitress-serve --listen=0.0.0.0:8000 main:app Ahora el backend está listo para producción a través de Waitress.\n",
+  "description": "En esta sección veremos cómo se instala Waitress dentro del contenedor Docker que ejecuta la API.\nWaitress es el servidor WSGI que utilizamos para servir la aplicación Flask en producción.\n1. Instalación de Waitress mediante Docker En este proyecto, Waitress no se instala manualmente en el sistema, sino que se incluye directamente dentro del Dockerfile del servicio API.\nEsto garantiza:\nUn entorno limpio y reproducible Independencia del sistema operativo Misma configuración en todas las instancias (tictactoe1, tictactoe2, etc.) 2. Dockerfile con instalación automática de dependencias El paquete Waitress se instala dentro del contenedor utilizando pip install.\nEste es el bloque relevante del Dockerfile:\n",
   "keywords": [
     
   ],
-  "articleBody": "En esta sección aprenderás a instalar Waitress, un servidor WSGI de producción para aplicaciones Python como Flask.\n1. Requisitos previos Asegúrate de tener instalado:\nPython 3.10 o superior pip actualizado Un entorno virtual (opcional pero recomendado) 2. Crear el entorno virtual python -m venv venv source venv/bin/activate # Linux/macOS venv\\Scripts\\activate # Windows 3. Instalar Flask y Waitress pip install flask waitress 4. Archivo básico de ejemplo from flask import Flask app = Flask(__name__) @app.get(\"/\") def home(): return \"Waitress funcionando correctamente.\" 5. Ejecutar la app con Waitress waitress-serve --listen=0.0.0.0:8000 main:app Ahora el backend está listo para producción a través de Waitress.\n",
-  "wordCount" : "100",
+  "articleBody": "En esta sección veremos cómo se instala Waitress dentro del contenedor Docker que ejecuta la API.\nWaitress es el servidor WSGI que utilizamos para servir la aplicación Flask en producción.\n1. Instalación de Waitress mediante Docker En este proyecto, Waitress no se instala manualmente en el sistema, sino que se incluye directamente dentro del Dockerfile del servicio API.\nEsto garantiza:\nUn entorno limpio y reproducible Independencia del sistema operativo Misma configuración en todas las instancias (tictactoe1, tictactoe2, etc.) 2. Dockerfile con instalación automática de dependencias El paquete Waitress se instala dentro del contenedor utilizando pip install.\nEste es el bloque relevante del Dockerfile:\nRUN pip install --upgrade pip setuptools wheel \u0026\u0026 \\ pip install waitress \u0026\u0026 \\ pip install -e . Aquí ocurre lo siguiente:\nSe actualiza pip y herramientas base Se instala Waitress Se instalan las dependencias del proyecto (definidas en pyproject.toml) 3. Ejecución de la API con Waitress dentro del contenedor Waitress se utiliza como entrypoint del contenedor:\nCMD [\"waitress-serve\", \"--listen=0.0.0.0:8000\", \"main:app\"] Esto significa:\nLa API escucha en el puerto 8000 dentro del contenedor Waitress sirve la aplicación Flask disponible en main.py bajo el nombre app Todo está totalmente automatizado con Docker 4. Levantar la aplicación ya configurada con Waitress Para construir e iniciar los contenedores:\ndocker-compose build docker-compose up -d Esto lanza:\nDos instancias de la API (tictactoe1 y tictactoe2) Cada una ejecutada por Waitress Nginx como reverse proxy sobre ellas Resultado final A diferencia de una instalación manual en el sistema, aquí:\nNo es necesario configurar entornos virtuales No debes instalar Waitress en tu máquina No debes ejecutar waitress-serve tú mismo Todo ocurre automáticamente dentro de los contenedores, garantizando un entorno limpio, escalable y replicable.\n",
+  "wordCount" : "279",
   "inLanguage": "es",
   "datePublished": "0001-01-01T00:00:00Z",
   "dateModified": "0001-01-01T00:00:00Z",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "//localhost:1313/instalacion/"
+    "@id": "http://localhost:1313/Servidor_WSGI/instalacion/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "Documentación del Proyecto TicTacToe",
     "logo": {
       "@type": "ImageObject",
-      "url": "//localhost:1313/favicon.ico"
+      "url": "http://localhost:1313/Servidor_WSGI/favicon.ico"
     }
   }
 }
@@ -179,7 +162,7 @@ Ahora el backend está listo para producción a través de Waitress.">
     <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="//localhost:1313/" accesskey="h" title="Documentación del Proyecto TicTacToe (Alt + H)">Documentación del Proyecto TicTacToe</a>
+            <a href="http://localhost:1313/Servidor_WSGI/" accesskey="h" title="Documentación del Proyecto TicTacToe (Alt + H)">Documentación del Proyecto TicTacToe</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -205,22 +188,22 @@ Ahora el backend está listo para producción a través de Waitress.">
         </div>
         <ul id="menu">
             <li>
-                <a href="//localhost:1313/inicio" title="Inicio">
-                    <span>Inicio</span>
+                <a href="http://localhost:1313/Servidor_WSGI/introduccion" title="Introducción">
+                    <span>Introducción</span>
                 </a>
             </li>
             <li>
-                <a href="//localhost:1313/instalacion/" title="Instalación">
+                <a href="http://localhost:1313/Servidor_WSGI/instalacion/" title="Instalación">
                     <span class="active">Instalación</span>
                 </a>
             </li>
             <li>
-                <a href="//localhost:1313/configuracion/" title="Configuración">
+                <a href="http://localhost:1313/Servidor_WSGI/configuracion/" title="Configuración">
                     <span>Configuración</span>
                 </a>
             </li>
             <li>
-                <a href="//localhost:1313/despliegue/" title="Despliegue">
+                <a href="http://localhost:1313/Servidor_WSGI/despliegue/" title="Despliegue">
                     <span>Despliegue</span>
                 </a>
             </li>
@@ -231,39 +214,68 @@ Ahora el backend está listo para producción a través de Waitress.">
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="//localhost:1313/">Inicio</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/Servidor_WSGI/">Inicio</a></div>
     <h1 class="post-title entry-hint-parent">
       Instalación Básica de Waitress
     </h1>
-    <div class="post-meta"><span>1 min</span>
+    <div class="post-meta"><span>2 min</span>
 
 </div>
   </header> 
-  <div class="post-content"><p>En esta sección aprenderás a instalar <strong>Waitress</strong>, un servidor WSGI de producción para aplicaciones Python como Flask.</p>
-<h2 id="1-requisitos-previos">1. Requisitos previos<a hidden class="anchor" aria-hidden="true" href="#1-requisitos-previos">#</a></h2>
-<p>Asegúrate de tener instalado:</p>
+  <div class="post-content"><p>En esta sección veremos cómo se instala <strong>Waitress</strong> dentro del contenedor Docker que ejecuta la API.<br>
+Waitress es el servidor WSGI que utilizamos para servir la aplicación Flask en producción.</p>
+<hr>
+<h2 id="1-instalación-de-waitress-mediante-docker">1. Instalación de Waitress mediante Docker<a hidden class="anchor" aria-hidden="true" href="#1-instalación-de-waitress-mediante-docker">#</a></h2>
+<p>En este proyecto, Waitress <strong>no se instala manualmente en el sistema</strong>, sino que se incluye directamente dentro del <strong>Dockerfile</strong> del servicio API.</p>
+<p>Esto garantiza:</p>
 <ul>
-<li>Python 3.10 o superior</li>
-<li>pip actualizado</li>
-<li>Un entorno virtual (opcional pero recomendado)</li>
+<li>Un entorno limpio y reproducible</li>
+<li>Independencia del sistema operativo</li>
+<li>Misma configuración en todas las instancias (tictactoe1, tictactoe2, etc.)</li>
 </ul>
-<h2 id="2-crear-el-entorno-virtual">2. Crear el entorno virtual<a hidden class="anchor" aria-hidden="true" href="#2-crear-el-entorno-virtual">#</a></h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python -m venv venv
-</span></span><span style="display:flex;"><span>source venv/bin/activate      <span style="color:#75715e"># Linux/macOS</span>
-</span></span><span style="display:flex;"><span>venv<span style="color:#ae81ff">\S</span>cripts<span style="color:#ae81ff">\a</span>ctivate         <span style="color:#75715e"># Windows</span>
-</span></span></code></pre></div><h2 id="3-instalar-flask-y-waitress">3. Instalar Flask y Waitress<a hidden class="anchor" aria-hidden="true" href="#3-instalar-flask-y-waitress">#</a></h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pip install flask waitress
-</span></span></code></pre></div><h2 id="4-archivo-básico-de-ejemplo">4. Archivo básico de ejemplo<a hidden class="anchor" aria-hidden="true" href="#4-archivo-básico-de-ejemplo">#</a></h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> Flask
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>app <span style="color:#f92672">=</span> Flask(__name__)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@app.get</span>(<span style="color:#e6db74">&#34;/&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">home</span>():
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Waitress funcionando correctamente.&#34;</span>
-</span></span></code></pre></div><h2 id="5-ejecutar-la-app-con-waitress">5. Ejecutar la app con Waitress<a hidden class="anchor" aria-hidden="true" href="#5-ejecutar-la-app-con-waitress">#</a></h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>waitress-serve --listen<span style="color:#f92672">=</span>0.0.0.0:8000 main:app
-</span></span></code></pre></div><p>Ahora el backend está listo para producción a través de Waitress.</p>
+<hr>
+<h2 id="2-dockerfile-con-instalación-automática-de-dependencias">2. Dockerfile con instalación automática de dependencias<a hidden class="anchor" aria-hidden="true" href="#2-dockerfile-con-instalación-automática-de-dependencias">#</a></h2>
+<p>El paquete Waitress se instala dentro del contenedor utilizando <code>pip install</code>.<br>
+Este es el bloque relevante del Dockerfile:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> pip install --upgrade pip setuptools wheel <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    pip install waitress <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    pip install -e .<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>Aquí ocurre lo siguiente:</p>
+<ul>
+<li>Se actualiza pip y herramientas base</li>
+<li>Se instala <strong>Waitress</strong></li>
+<li>Se instalan las dependencias del proyecto (definidas en <code>pyproject.toml</code>)</li>
+</ul>
+<hr>
+<h2 id="3-ejecución-de-la-api-con-waitress-dentro-del-contenedor">3. Ejecución de la API con Waitress dentro del contenedor<a hidden class="anchor" aria-hidden="true" href="#3-ejecución-de-la-api-con-waitress-dentro-del-contenedor">#</a></h2>
+<p>Waitress se utiliza como <strong>entrypoint</strong> del contenedor:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;waitress-serve&#34;</span>, <span style="color:#e6db74">&#34;--listen=0.0.0.0:8000&#34;</span>, <span style="color:#e6db74">&#34;main:app&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>Esto significa:</p>
+<ul>
+<li>La API escucha en el puerto <code>8000</code> dentro del contenedor</li>
+<li>Waitress sirve la aplicación Flask disponible en <code>main.py</code> bajo el nombre <code>app</code></li>
+<li>Todo está totalmente automatizado con Docker</li>
+</ul>
+<hr>
+<h2 id="4-levantar-la-aplicación-ya-configurada-con-waitress">4. Levantar la aplicación ya configurada con Waitress<a hidden class="anchor" aria-hidden="true" href="#4-levantar-la-aplicación-ya-configurada-con-waitress">#</a></h2>
+<p>Para construir e iniciar los contenedores:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker-compose build
+</span></span><span style="display:flex;"><span>docker-compose up -d
+</span></span></code></pre></div><p>Esto lanza:</p>
+<ul>
+<li>Dos instancias de la API (<code>tictactoe1</code> y <code>tictactoe2</code>)</li>
+<li>Cada una ejecutada por Waitress</li>
+<li>Nginx como reverse proxy sobre ellas</li>
+</ul>
+<hr>
+<h2 id="resultado-final">Resultado final<a hidden class="anchor" aria-hidden="true" href="#resultado-final">#</a></h2>
+<p>A diferencia de una instalación manual en el sistema, aquí:</p>
+<ul>
+<li>No es necesario configurar entornos virtuales</li>
+<li>No debes instalar Waitress en tu máquina</li>
+<li>No debes ejecutar <code>waitress-serve</code> tú mismo</li>
+</ul>
+<p><strong>Todo ocurre automáticamente dentro de los contenedores</strong>, garantizando un entorno limpio, escalable y replicable.</p>
 
 
   </div>
@@ -277,7 +289,7 @@ Ahora el backend está listo para producción a través de Waitress.">
     </main>
     
 <footer class="footer">
-        <span>&copy; 2025 <a href="//localhost:1313/">Documentación del Proyecto TicTacToe</a></span> · 
+        <span>&copy; 2025 <a href="http://localhost:1313/Servidor_WSGI/">Documentación del Proyecto TicTacToe</a></span> · 
 
     <span>
         Powered by
