@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Configuración de Waitress | Documentación del Proyecto TicTacToe</title>
+<meta name="keywords" content="">
+<meta name="description" content="En esta sección veremos cómo ajustar Waitress para mejorar rendimiento y estabilidad en producción.
+1. Ejecutar la aplicación con parámetros
+waitress-serve \
+  --listen=0.0.0.0:8000 \
+  --threads=8 \
+  --asyncore-use-poll \
+  main:app
+2. Parámetros recomendados
+
+  
+      
+          Parámetro
+          Descripción
+      
+  
+  
+      
+          --threads
+          Número de threads por worker. 4–8 suele ser suficiente.
+      
+      
+          --listen
+          Dirección IP y puerto donde escuchar.
+      
+      
+          --asyncore-use-poll
+          Mayor compatibilidad en contenedores.
+      
+  
+
+3. Uso desde Docker
+CMD [&#34;waitress-serve&#34;, &#34;--listen=0.0.0.0:8000&#34;, &#34;main:app&#34;]
+Waitress funciona perfectamente dentro de contenedores debido a su simplicidad y estabilidad.">
+<meta name="author" content="">
+<link rel="canonical" href="//localhost:1313/configuracion/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fd5566c526ae48aadabd950798a2dc3568536401560eae5caac3765a42a9e7b5.css" integrity="sha256-/VVmxSauSKravZUHmKLcNWhTZAFWDq5cqsN2WkKp57U=" rel="preload stylesheet" as="style">
+<link rel="icon" href="//localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="//localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="//localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="//localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="//localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="es" href="//localhost:1313/configuracion/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="//localhost:1313/configuracion/">
+  <meta property="og:site_name" content="Documentación del Proyecto TicTacToe">
+  <meta property="og:title" content="Configuración de Waitress">
+  <meta property="og:description" content="En esta sección veremos cómo ajustar Waitress para mejorar rendimiento y estabilidad en producción.
+1. Ejecutar la aplicación con parámetros waitress-serve \ --listen=0.0.0.0:8000 \ --threads=8 \ --asyncore-use-poll \ main:app 2. Parámetros recomendados Parámetro Descripción --threads Número de threads por worker. 4–8 suele ser suficiente. --listen Dirección IP y puerto donde escuchar. --asyncore-use-poll Mayor compatibilidad en contenedores. 3. Uso desde Docker CMD [&#34;waitress-serve&#34;, &#34;--listen=0.0.0.0:8000&#34;, &#34;main:app&#34;] Waitress funciona perfectamente dentro de contenedores debido a su simplicidad y estabilidad.">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Configuración de Waitress">
+<meta name="twitter:description" content="En esta sección veremos cómo ajustar Waitress para mejorar rendimiento y estabilidad en producción.
+1. Ejecutar la aplicación con parámetros
+waitress-serve \
+  --listen=0.0.0.0:8000 \
+  --threads=8 \
+  --asyncore-use-poll \
+  main:app
+2. Parámetros recomendados
+
+  
+      
+          Parámetro
+          Descripción
+      
+  
+  
+      
+          --threads
+          Número de threads por worker. 4–8 suele ser suficiente.
+      
+      
+          --listen
+          Dirección IP y puerto donde escuchar.
+      
+      
+          --asyncore-use-poll
+          Mayor compatibilidad en contenedores.
+      
+  
+
+3. Uso desde Docker
+CMD [&#34;waitress-serve&#34;, &#34;--listen=0.0.0.0:8000&#34;, &#34;main:app&#34;]
+Waitress funciona perfectamente dentro de contenedores debido a su simplicidad y estabilidad.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Configuración de Waitress",
+      "item": "//localhost:1313/configuracion/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Configuración de Waitress",
+  "name": "Configuración de Waitress",
+  "description": "En esta sección veremos cómo ajustar Waitress para mejorar rendimiento y estabilidad en producción.\n1. Ejecutar la aplicación con parámetros waitress-serve \\ --listen=0.0.0.0:8000 \\ --threads=8 \\ --asyncore-use-poll \\ main:app 2. Parámetros recomendados Parámetro Descripción --threads Número de threads por worker. 4–8 suele ser suficiente. --listen Dirección IP y puerto donde escuchar. --asyncore-use-poll Mayor compatibilidad en contenedores. 3. Uso desde Docker CMD [\u0026#34;waitress-serve\u0026#34;, \u0026#34;--listen=0.0.0.0:8000\u0026#34;, \u0026#34;main:app\u0026#34;] Waitress funciona perfectamente dentro de contenedores debido a su simplicidad y estabilidad.\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "En esta sección veremos cómo ajustar Waitress para mejorar rendimiento y estabilidad en producción.\n1. Ejecutar la aplicación con parámetros waitress-serve \\ --listen=0.0.0.0:8000 \\ --threads=8 \\ --asyncore-use-poll \\ main:app 2. Parámetros recomendados Parámetro Descripción --threads Número de threads por worker. 4–8 suele ser suficiente. --listen Dirección IP y puerto donde escuchar. --asyncore-use-poll Mayor compatibilidad en contenedores. 3. Uso desde Docker CMD [\"waitress-serve\", \"--listen=0.0.0.0:8000\", \"main:app\"] Waitress funciona perfectamente dentro de contenedores debido a su simplicidad y estabilidad.\n4. Logs Para ver logs en un contenedor:\ndocker logs api1 Esto te permite verificar la actividad y detectar errores.\n",
+  "wordCount" : "96",
+  "inLanguage": "es",
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "//localhost:1313/configuracion/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Documentación del Proyecto TicTacToe",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "//localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="//localhost:1313/" accesskey="h" title="Documentación del Proyecto TicTacToe (Alt + H)">Documentación del Proyecto TicTacToe</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="//localhost:1313/inicio" title="Inicio">
+                    <span>Inicio</span>
+                </a>
+            </li>
+            <li>
+                <a href="//localhost:1313/instalacion/" title="Instalación">
+                    <span>Instalación</span>
+                </a>
+            </li>
+            <li>
+                <a href="//localhost:1313/configuracion/" title="Configuración">
+                    <span class="active">Configuración</span>
+                </a>
+            </li>
+            <li>
+                <a href="//localhost:1313/despliegue/" title="Despliegue">
+                    <span>Despliegue</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="//localhost:1313/">Inicio</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Configuración de Waitress
+    </h1>
+    <div class="post-meta"><span>1 min</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>En esta sección veremos cómo ajustar Waitress para mejorar rendimiento y estabilidad en producción.</p>
+<h2 id="1-ejecutar-la-aplicación-con-parámetros">1. Ejecutar la aplicación con parámetros<a hidden class="anchor" aria-hidden="true" href="#1-ejecutar-la-aplicación-con-parámetros">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>waitress-serve <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --listen<span style="color:#f92672">=</span>0.0.0.0:8000 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --threads<span style="color:#f92672">=</span><span style="color:#ae81ff">8</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --asyncore-use-poll <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  main:app
+</span></span></code></pre></div><h2 id="2-parámetros-recomendados">2. Parámetros recomendados<a hidden class="anchor" aria-hidden="true" href="#2-parámetros-recomendados">#</a></h2>
+<table>
+  <thead>
+      <tr>
+          <th>Parámetro</th>
+          <th>Descripción</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>--threads</code></td>
+          <td>Número de threads por worker. 4–8 suele ser suficiente.</td>
+      </tr>
+      <tr>
+          <td><code>--listen</code></td>
+          <td>Dirección IP y puerto donde escuchar.</td>
+      </tr>
+      <tr>
+          <td><code>--asyncore-use-poll</code></td>
+          <td>Mayor compatibilidad en contenedores.</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="3-uso-desde-docker">3. Uso desde Docker<a hidden class="anchor" aria-hidden="true" href="#3-uso-desde-docker">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;waitress-serve&#34;</span>, <span style="color:#e6db74">&#34;--listen=0.0.0.0:8000&#34;</span>, <span style="color:#e6db74">&#34;main:app&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>Waitress funciona perfectamente dentro de contenedores debido a su simplicidad y estabilidad.</p>
+<h2 id="4-logs">4. Logs<a hidden class="anchor" aria-hidden="true" href="#4-logs">#</a></h2>
+<p>Para ver logs en un contenedor:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker logs api1
+</span></span></code></pre></div><p>Esto te permite verificar la actividad y detectar errores.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="//localhost:1313/">Documentación del Proyecto TicTacToe</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copiar';
+
+        function copyingDone() {
+            copybutton.innerHTML = '¡copiado!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copiar';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

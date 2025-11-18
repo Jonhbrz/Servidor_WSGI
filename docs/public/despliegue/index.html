@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Despliegue Final con Nginx y Waitress (Múltiples Contenedores) | Documentación del Proyecto TicTacToe</title>
+<meta name="keywords" content="">
+<meta name="description" content="En esta sección verás el despliegue completo en producción utilizando:
+
+Flask &#43; Waitress (backend WSGI)
+Dockerfile (para build de la API)
+Docker Compose (para levantar varias instancias)
+Nginx como reverse proxy y balanceador de carga
+Múltiples contenedores ejecutando la misma API
+Hugo para documentar el proyecto
+
+Esta arquitectura permite que la API sea accedida desde múltiples dispositivos de forma estable y escalable.
+
+1. Estructura del proyecto
+Tu proyecto está organizado así:">
+<meta name="author" content="">
+<link rel="canonical" href="//localhost:1313/despliegue/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fd5566c526ae48aadabd950798a2dc3568536401560eae5caac3765a42a9e7b5.css" integrity="sha256-/VVmxSauSKravZUHmKLcNWhTZAFWDq5cqsN2WkKp57U=" rel="preload stylesheet" as="style">
+<link rel="icon" href="//localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="//localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="//localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="//localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="//localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="es" href="//localhost:1313/despliegue/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="//localhost:1313/despliegue/">
+  <meta property="og:site_name" content="Documentación del Proyecto TicTacToe">
+  <meta property="og:title" content="Despliegue Final con Nginx y Waitress (Múltiples Contenedores)">
+  <meta property="og:description" content="En esta sección verás el despliegue completo en producción utilizando:
+Flask &#43; Waitress (backend WSGI) Dockerfile (para build de la API) Docker Compose (para levantar varias instancias) Nginx como reverse proxy y balanceador de carga Múltiples contenedores ejecutando la misma API Hugo para documentar el proyecto Esta arquitectura permite que la API sea accedida desde múltiples dispositivos de forma estable y escalable.
+1. Estructura del proyecto Tu proyecto está organizado así:">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Despliegue Final con Nginx y Waitress (Múltiples Contenedores)">
+<meta name="twitter:description" content="En esta sección verás el despliegue completo en producción utilizando:
+
+Flask &#43; Waitress (backend WSGI)
+Dockerfile (para build de la API)
+Docker Compose (para levantar varias instancias)
+Nginx como reverse proxy y balanceador de carga
+Múltiples contenedores ejecutando la misma API
+Hugo para documentar el proyecto
+
+Esta arquitectura permite que la API sea accedida desde múltiples dispositivos de forma estable y escalable.
+
+1. Estructura del proyecto
+Tu proyecto está organizado así:">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Despliegue Final con Nginx y Waitress (Múltiples Contenedores)",
+      "item": "//localhost:1313/despliegue/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Despliegue Final con Nginx y Waitress (Múltiples Contenedores)",
+  "name": "Despliegue Final con Nginx y Waitress (Múltiples Contenedores)",
+  "description": "En esta sección verás el despliegue completo en producción utilizando:\nFlask + Waitress (backend WSGI) Dockerfile (para build de la API) Docker Compose (para levantar varias instancias) Nginx como reverse proxy y balanceador de carga Múltiples contenedores ejecutando la misma API Hugo para documentar el proyecto Esta arquitectura permite que la API sea accedida desde múltiples dispositivos de forma estable y escalable.\n1. Estructura del proyecto Tu proyecto está organizado así:\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "En esta sección verás el despliegue completo en producción utilizando:\nFlask + Waitress (backend WSGI) Dockerfile (para build de la API) Docker Compose (para levantar varias instancias) Nginx como reverse proxy y balanceador de carga Múltiples contenedores ejecutando la misma API Hugo para documentar el proyecto Esta arquitectura permite que la API sea accedida desde múltiples dispositivos de forma estable y escalable.\n1. Estructura del proyecto Tu proyecto está organizado así:\nSERVIDOR-WAITRESS/\r├─ api/\r│ ├─ Dockerfile\r│ ├─ main.py\r│ ├─ pyproject.toml\r│ └─ uv.lock\r├─ docs/ ← sitio Hugo para documentación\r├─ nginx/\r│ └─ nginx.conf\r└─ docker-compose.yml 2. Dockerfile de la API El Dockerfile se encarga de:\nInstalar dependencias Copiar el código Lanzar Waitress en el puerto 8000 FROM python:3.12-slim ENV PYTHONDONTWRITEBYTECODE=1 ENV PYTHONUNBUFFERED=1 WORKDIR /app COPY pyproject.toml ./ RUN pip install --upgrade pip setuptools wheel \u0026\u0026 pip install waitress \u0026\u0026 pip install -e . COPY . . EXPOSE 8000 CMD [\"waitress-serve\", \"--listen=0.0.0.0:8000\", \"main:app\"] 3. docker-compose.yml con múltiples instancias Aquí levantas dos contenedores idénticos tictactoe1 y tictactoe2, ambos corriendo la API por Waitress.\nLuego Nginx se encarga del balanceo.\nversion: \"3.8\" services: tictactoe1: build: ./api container_name: tictactoe1 restart: always networks: - tictactoe-net expose: - \"8000\" tictactoe2: build: ./api container_name: tictactoe2 restart: always networks: - tictactoe-net expose: - \"8000\" nginx: image: nginx:latest container_name: nginx_tictactoe restart: always volumes: - ./nginx/nginx.conf:/etc/nginx/nginx.conf ports: - \"9000:80\" depends_on: - tictactoe1 - tictactoe2 networks: - tictactoe-net networks: tictactoe-net: driver: bridge 🌐 4. Configuración de Nginx (nginx.conf) Nginx actúa como:\nReverse Proxy Balanceador de carga Punto de entrada externo (puerto 9000) worker_processes 1; events { worker_connections 1024; } http { upstream tictactoe_upstream { ip_hash; server tictactoe1:8000; server tictactoe2:8000; } server { listen 80; location / { proxy_pass http://tictactoe_upstream; proxy_set_header Host $host; proxy_set_header X-Real-IP $remote_addr; } } } ip_hash asegura que cada cliente siempre vaya al mismo backend (ideal para sesiones persistentes).\n🔥 5. Levantar todo el sistema Desde la carpeta raíz del proyecto:\ndocker-compose build docker-compose up -d Comprobar contenedores:\ndocker ps Todos deben aparecer como Up.\n📡 6. Probar la API desde el navegador o curl Registrar un device:\ncurl -X POST http://localhost:9000/devices Ver dispositivos:\ncurl http://localhost:9000/devices Nginx distribuirá las peticiones entre tictactoe1 y tictactoe2.\n🧪 7. Confirmar balanceo de carga Ver logs:\ndocker logs tictactoe1 docker logs tictactoe2 Ambos deben recibir tráfico.\n🎯 8. Resultado final Con esta arquitectura tienes:\nAPI escalable Servida con Waitress Balanceada por Nginx Reproducible con Docker Compose Dos (o más) contenedores backend Documentación en Hugo Un entorno profesional, limpio, replicable y apto para producción.\n¡Despliegue completado! 🚀🔥\n",
+  "wordCount" : "419",
+  "inLanguage": "es",
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "//localhost:1313/despliegue/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Documentación del Proyecto TicTacToe",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "//localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="//localhost:1313/" accesskey="h" title="Documentación del Proyecto TicTacToe (Alt + H)">Documentación del Proyecto TicTacToe</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="//localhost:1313/inicio" title="Inicio">
+                    <span>Inicio</span>
+                </a>
+            </li>
+            <li>
+                <a href="//localhost:1313/instalacion/" title="Instalación">
+                    <span>Instalación</span>
+                </a>
+            </li>
+            <li>
+                <a href="//localhost:1313/configuracion/" title="Configuración">
+                    <span>Configuración</span>
+                </a>
+            </li>
+            <li>
+                <a href="//localhost:1313/despliegue/" title="Despliegue">
+                    <span class="active">Despliegue</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="//localhost:1313/">Inicio</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Despliegue Final con Nginx y Waitress (Múltiples Contenedores)
+    </h1>
+    <div class="post-meta"><span>2 min</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>En esta sección verás el <strong>despliegue completo en producción</strong> utilizando:</p>
+<ul>
+<li><strong>Flask</strong> + <strong>Waitress</strong> (backend WSGI)</li>
+<li><strong>Dockerfile</strong> (para build de la API)</li>
+<li><strong>Docker Compose</strong> (para levantar varias instancias)</li>
+<li><strong>Nginx</strong> como reverse proxy y balanceador de carga</li>
+<li><strong>Múltiples contenedores</strong> ejecutando la misma API</li>
+<li><strong>Hugo</strong> para documentar el proyecto</li>
+</ul>
+<p>Esta arquitectura permite que la API sea accedida desde múltiples dispositivos de forma estable y escalable.</p>
+<hr>
+<h1 id="1-estructura-del-proyecto">1. Estructura del proyecto<a hidden class="anchor" aria-hidden="true" href="#1-estructura-del-proyecto">#</a></h1>
+<p>Tu proyecto está organizado así:</p>
+<pre tabindex="0"><code>SERVIDOR-WAITRESS/
+ ├─ api/
+ │   ├─ Dockerfile
+ │   ├─ main.py
+ │   ├─ pyproject.toml
+ │   └─ uv.lock
+ ├─ docs/   ← sitio Hugo para documentación
+ ├─ nginx/
+ │   └─ nginx.conf
+ └─ docker-compose.yml
+</code></pre><hr>
+<h1 id="2-dockerfile-de-la-api">2. Dockerfile de la API<a hidden class="anchor" aria-hidden="true" href="#2-dockerfile-de-la-api">#</a></h1>
+<p>El Dockerfile se encarga de:</p>
+<ul>
+<li>Instalar dependencias</li>
+<li>Copiar el código</li>
+<li>Lanzar <strong>Waitress</strong> en el puerto <code>8000</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#e6db74">python:3.12-slim</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> PYTHONDONTWRITEBYTECODE<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ENV</span> PYTHONUNBUFFERED<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WORKDIR</span> <span style="color:#e6db74">/app</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> pyproject.toml ./<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> pip install --upgrade pip setuptools wheel <span style="color:#f92672">&amp;&amp;</span>     pip install waitress <span style="color:#f92672">&amp;&amp;</span>     pip install -e .<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> . .<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">EXPOSE</span> <span style="color:#e6db74">8000</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;waitress-serve&#34;</span>, <span style="color:#e6db74">&#34;--listen=0.0.0.0:8000&#34;</span>, <span style="color:#e6db74">&#34;main:app&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><hr>
+<h1 id="3-docker-composeyml-con-múltiples-instancias">3. docker-compose.yml con múltiples instancias<a hidden class="anchor" aria-hidden="true" href="#3-docker-composeyml-con-múltiples-instancias">#</a></h1>
+<p>Aquí levantas <strong>dos contenedores idénticos</strong> <code>tictactoe1</code> y <code>tictactoe2</code>, ambos corriendo la API por Waitress.</p>
+<p>Luego Nginx se encarga del balanceo.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3.8&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">tictactoe1</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">build</span>: <span style="color:#ae81ff">./api</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">tictactoe1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">tictactoe-net</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">expose</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;8000&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">tictactoe2</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">build</span>: <span style="color:#ae81ff">./api</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">tictactoe2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">tictactoe-net</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">expose</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;8000&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">nginx</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">nginx:latest</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">nginx_tictactoe</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./nginx/nginx.conf:/etc/nginx/nginx.conf</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;9000:80&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">depends_on</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">tictactoe1</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">tictactoe2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">tictactoe-net</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">tictactoe-net</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">driver</span>: <span style="color:#ae81ff">bridge</span>
+</span></span></code></pre></div><hr>
+<h1 id="-4-configuración-de-nginx-nginxconf">🌐 4. Configuración de Nginx (nginx.conf)<a hidden class="anchor" aria-hidden="true" href="#-4-configuración-de-nginx-nginxconf">#</a></h1>
+<p>Nginx actúa como:</p>
+<ul>
+<li>Reverse Proxy</li>
+<li>Balanceador de carga</li>
+<li>Punto de entrada externo (puerto 9000)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#66d9ef">worker_processes</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">events</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">worker_connections</span> <span style="color:#ae81ff">1024</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">http</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">upstream</span> <span style="color:#e6db74">tictactoe_upstream</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ip_hash</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">server</span> tictactoe1:<span style="color:#ae81ff">8000</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">server</span> tictactoe2:<span style="color:#ae81ff">8000</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">server</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">listen</span> <span style="color:#ae81ff">80</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">location</span> <span style="color:#e6db74">/</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">proxy_pass</span> <span style="color:#e6db74">http://tictactoe_upstream</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">proxy_set_header</span> <span style="color:#e6db74">Host</span> $host;
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">proxy_set_header</span> <span style="color:#e6db74">X-Real-IP</span> $remote_addr;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>ip_hash</code> asegura que cada cliente siempre vaya al mismo backend (ideal para sesiones persistentes).</p>
+<hr>
+<h1 id="-5-levantar-todo-el-sistema">🔥 5. Levantar todo el sistema<a hidden class="anchor" aria-hidden="true" href="#-5-levantar-todo-el-sistema">#</a></h1>
+<p>Desde la carpeta raíz del proyecto:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker-compose build
+</span></span><span style="display:flex;"><span>docker-compose up -d
+</span></span></code></pre></div><p>Comprobar contenedores:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker ps
+</span></span></code></pre></div><p>Todos deben aparecer como <strong>Up</strong>.</p>
+<hr>
+<h1 id="-6-probar-la-api-desde-el-navegador-o-curl">📡 6. Probar la API desde el navegador o curl<a hidden class="anchor" aria-hidden="true" href="#-6-probar-la-api-desde-el-navegador-o-curl">#</a></h1>
+<p>Registrar un device:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -X POST http://localhost:9000/devices
+</span></span></code></pre></div><p>Ver dispositivos:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl http://localhost:9000/devices
+</span></span></code></pre></div><p>Nginx distribuirá las peticiones entre <code>tictactoe1</code> y <code>tictactoe2</code>.</p>
+<hr>
+<h1 id="-7-confirmar-balanceo-de-carga">🧪 7. Confirmar balanceo de carga<a hidden class="anchor" aria-hidden="true" href="#-7-confirmar-balanceo-de-carga">#</a></h1>
+<p>Ver logs:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker logs tictactoe1
+</span></span><span style="display:flex;"><span>docker logs tictactoe2
+</span></span></code></pre></div><p>Ambos deben recibir tráfico.</p>
+<hr>
+<h1 id="-8-resultado-final">🎯 8. Resultado final<a hidden class="anchor" aria-hidden="true" href="#-8-resultado-final">#</a></h1>
+<p>Con esta arquitectura tienes:</p>
+<ul>
+<li>API escalable</li>
+<li>Servida con Waitress</li>
+<li>Balanceada por Nginx</li>
+<li>Reproducible con Docker Compose</li>
+<li>Dos (o más) contenedores backend</li>
+<li>Documentación en Hugo</li>
+</ul>
+<p>Un entorno profesional, limpio, replicable y apto para producción.</p>
+<p>¡Despliegue completado! 🚀🔥</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="//localhost:1313/">Documentación del Proyecto TicTacToe</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copiar';
+
+        function copyingDone() {
+            copybutton.innerHTML = '¡copiado!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copiar';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
